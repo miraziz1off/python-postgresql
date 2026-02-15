@@ -23,8 +23,17 @@ def create_user(con):
         con.commit()
     cursor.close()
 
-def unsubscribe_user(con):
-    email = input('Введите email пользователя: ').lower().strip()
-    cursor = con.cursor()
 
-    cursor.execute(''' SELECT id FROM  ''')
+def search_user_by_email(con):
+    email = input('Введите email для поиска: ').strip().lower()
+    cursor = con.cursor()
+    cursor.execute(f''' SELECT id, name, email FROM users WHERE email LIKE '%{email}%' ''')
+    users = cursor.fetchall()
+
+    if users:
+        print('Найденные пользователи: ')
+        for user in users:
+            print(f'ID: {user[0]}, Имя: {user[1]}, Почта: {user[2]}')
+    else:
+        print('Пользователь не найден')
+    cursor.close()

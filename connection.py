@@ -4,12 +4,17 @@ def connect_to_db():
     while True:
         print('Подключение к PostgreSQL')
 
-        host = input("Host (например localhost): ").strip()
-        port = input("Port (обычно 5432): ").strip()
-        dbname = input("Название бд: ").strip()
-        user = input("Username: ").strip()
-        password = input("Password: ").strip()
+        # host = input("Host (например localhost): ").strip()
+        # port = input("Port (обычно 5432): ").strip()
+        # dbname = input("Название бд: ").strip()
+        # user = input("Username: ").strip()
+        # password = input("Password: ").strip()
 
+        host = 'localhost'
+        port = 5432
+        dbname = 'postgres'
+        user = 'postgres'
+        password = '111'
         if not all([host, port, dbname, user,password]):
             print('Все поля должны быть заполнены')
             continue

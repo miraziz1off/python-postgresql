@@ -72,3 +72,46 @@ def search_magazine_by_title(con):
     else:
         print("Журнал не найден.")
     cursor.close()
+
+
+def edit_magazine(con):
+    title = input('Введите название журнала для редактирования: ').strip()
+
+    cursor = con.cursor()
+    cursor.execute(f'''SELECT id, title, description FROM magazines WHERE title = '{title}' ''')
+    magazine = cursor.fetchone()
+
+    if magazine:
+        print(f"Найден журнал: ID: {magazine[0]}, Название: {magazine[1]}, Описание: {magazine[2]}")
+
+        new_title = input(f"Введите новое название журнала (оставьте пустым если не хотите менять): ").strip()
+        new_description = input(f"Введите новое описание журнала (оставьте пустым если не хотите менять): ").strip()
+
+        if new_title:
+            cursor.execute(f'''UPDATE magazines SET title = '{new_title}' WHERE id = {magazine[0]}''')
+        if new_description:
+            cursor.execute(f'''UPDATE magazines SET description = '{new_description}' WHERE id = {magazine[0]}''')
+
+        con.commit()
+        print("Данные журнала успешно обновлены.")
+    else:
+        print("Журнал не найден.")
+
+    cursor.close()
+
+
+def delete_magazine(con):
+    title = input('Введите название журнала для удаления: ').strip()
+
+    cursor = con.cursor()
+    cursor.execute(f'''SELECT id FROM magazines WHERE title = '{title}' ''')
+    magazine = cursor.fetchone()
+
+    if magazine:
+        cursor.execute(f'''DELETE FROM magazines WHERE id = {magazine[0]}''')
+        con.commit()
+        print("Журнал успешно удален.")
+    else:
+        print("Журнал не найден.")
+
+    cursor.close()

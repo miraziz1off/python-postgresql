@@ -12,7 +12,7 @@ def seed_data():
     try:
         # Добавляем пользователей
         users = [
-            ('Ivan', 'ivan@example.com'),
+            ('Jefrey', 'jefrey_ep@gmail.com'),
             ('Maria', 'maria@example.com'),
             ('Petr', 'petr@example.com')
         ]

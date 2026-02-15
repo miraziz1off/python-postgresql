@@ -37,3 +37,47 @@ def search_user_by_email(con):
     else:
         print('Пользователь не найден')
     cursor.close()
+
+
+def edit_user(con):
+    email = input('Введите email для изменения: ').strip().lower()
+
+    cursor = con.cursor()
+    cursor.execute(f''' SELECT id, name, email FROM users WHERE email='{email}'; ''')
+    user = cursor.fetchone()
+
+    if user:
+        print(f"Найден пользователь: ID: {user[0]}, Имя: {user[1]}, Почта: {user[2]}")
+
+        new_name = input(f"Введите новое имя (оставьте пустым, если не хотите менять): ").strip()
+        new_email = input(f"Введите новый email (оставьте пустым, если не хотите менять): ").strip().lower()
+
+        if new_name:
+            cursor.execute(f'''UPDATE users SET name = '{new_name}' WHERE id = {user[0]}''')
+
+        if new_email:
+            cursor.execute(f'''UPDATE users SET email = '{new_email}' WHERE id = {user[0]}''')
+
+        con.commit()
+        print('Данные успешно обновлены!')
+
+    else:
+        print('ПОльзователь не найден')
+
+    cursor.close()
+
+def delete_user(con):
+    email = input('Введите email пользователя для удаления: ').strip().lower()
+
+    cursor = con.cursor()
+    cursor.execute(f'''SELECT id FROM users WHERE email='{email}' ''')
+    user = cursor.fetchone()
+
+    if user:
+        cursor.execute(f'''DELETE FROM users WHERE id='{user[0]}'; ''')
+        con.commit()
+        print("Пользователь успешно удален.")
+    else:
+        print("Пользователь не найден.")
+
+    cursor.close()
